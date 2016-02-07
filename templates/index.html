@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dashboard</title>
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/locale/bootstrap-table-zh-CN.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+	<h1>Dashboard</h1>
+	<br>
+	<div class="row">		
+		<form id="mainForm">
+			<input type="text" class="form-control input-lg" placeholder="Band name">
+		</form>
+	</div>	
+	<br>
+	<div class="row">
+		<span id="test"></span>
+	</div>
+	<br>
+
+<table id="table">
+    <thead>
+    <tr>
+        <th data-field="name" data-formatter="commonFormatter">name</th>
+        <th data-field="band" data-formatter="commonFormatter">band</th>
+        <th data-field="instrument" data-formatter="commonFormatter">instrument</th>
+    </tr>
+    </thead>
+</table>
+
+
+	<script>
+
+		function commonFormatter(value) {
+						return '<div data-field="' + this.field + '">' + value + '</div>';
+		};
+
+		function locationFormatter(value) {
+						//Need better method to parse this json
+						//var loc = value.split(",")[66];
+						return '<div data-field="' + this.field + '">' + values + '</div>';
+		};
+
+		
+
+
+
+		$("#mainForm").submit(function(event) {
+			event.preventDefault()
+			
+			console.log("FORM: SUBMIT")
+			
+			$.ajax({
+				method: "GET",
+				url: "/musicians",
+				data: {
+					
+					name: $("#mainForm input").val()
+				},
+				success: function(data) {
+
+					$(function () {
+					    $('#table').bootstrapTable({
+					        data: data
+					    });
+					});
+
+
+
+				}
+			})	
+		})	
+		
+	</script>
+</div>
+</body>
+</html>
